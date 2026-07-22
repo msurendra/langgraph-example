@@ -13,4 +13,4 @@ Production-style LangGraph example using
 
 pip install -r requirements.txt
 
-python integration/run_aapl.py
+python app.py AAPL

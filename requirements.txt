@@ -24,3 +24,7 @@ opentelemetry-exporter-otlp-proto-http
 openinference-instrumentation-langchain
 
 arize-phoenix
+
+mem0ai
+chromadb
+sentence-transformers

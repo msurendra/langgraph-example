@@ -430,3 +430,41 @@ This keeps the system predictable, testable, easier to debug, and less expensive
 ## Consequences
 
 Before introducing an LLM into any new feature, first determine whether the task can be implemented deterministically.
+
+---
+
+# ADR-020
+
+## Decision
+
+Use mem0 for long-term memory.
+
+## Reason
+
+mem0 provides simple memory management with semantic search, local persistence via ChromaDB, and lightweight integration. It runs entirely locally, consistent with the project's local-first approach.
+
+## Consequences
+
+- Past analyses are stored per ticker
+- Decision agent receives historical context
+- Memory persists across runs in `data/mem0/`
+- HuggingFace embeddings (all-MiniLM-L6-v2) are used for vector search
+- No external API dependency
+
+---
+
+# ADR-021
+
+## Decision
+
+Use Phoenix (Arize) as the primary observability UI.
+
+## Reason
+
+Phoenix is open-source, runs locally, and natively supports OpenInference traces. It provides LLM-specific insights (prompts, responses, latency, token usage) that generic trace viewers lack.
+
+## Consequences
+
+- Traces are exported to Phoenix via OTLP
+- Local file export remains as fallback
+- LangSmith is optional and disabled by default

@@ -1,8 +1,11 @@
 """Runner service that coordinates graph execution."""
 
+from datetime import date
+
 from graph import build_graph
 from schemas.state import GraphState, Recommendation
 from services.logging import logger
+from services.memory import recall_analyses, store_analysis
 
 
 class Runner:
@@ -12,7 +15,8 @@ class Runner:
     def run(self, ticker: str, stream: bool = False) -> Recommendation:
         logger.info("starting analysis", ticker=ticker)
 
-        initial_state = GraphState(ticker=ticker.upper())
+        past = recall_analyses(ticker)
+        initial_state = GraphState(ticker=ticker.upper(), past_analyses=past)
 
         if stream:
             final_state = self._run_streaming(initial_state)
@@ -30,6 +34,13 @@ class Runner:
             signal=result.recommendation.signal.value,
             confidence=result.recommendation.confidence,
         )
+
+        summary = (
+            f"[{date.today()}] {ticker.upper()}: {result.recommendation.signal.value} "
+            f"(confidence: {result.recommendation.confidence:.0%}). "
+            f"{result.recommendation.reasoning}"
+        )
+        store_analysis(ticker, summary)
 
         return result.recommendation
 

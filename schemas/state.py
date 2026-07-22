@@ -83,4 +83,5 @@ class GraphState(BaseModel):
     technical_analysis: Optional[AgentAnalysis] = None
     fundamental_analysis: Optional[AgentAnalysis] = None
     news_analysis: Optional[AgentAnalysis] = None
+    past_analyses: list[str] = Field(default_factory=list)
     recommendation: Optional[Recommendation] = None

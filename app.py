@@ -16,6 +16,7 @@ def main() -> None:
     parser.add_argument("--debug", action="store_true", help="Enable LangGraph debug logging")
     parser.add_argument("--stream", action="store_true", help="Stream node-by-node progress")
     parser.add_argument("--visualize", action="store_true", help="Print graph diagram and exit")
+    parser.add_argument("--history", action="store_true", help="Show past analyses for ticker and exit")
     args = parser.parse_args()
 
     console = Console()
@@ -25,6 +26,18 @@ def main() -> None:
 
     if args.visualize:
         console.print(Panel(runner.visualize(), title="Graph Diagram (Mermaid)"))
+        return
+
+    if args.history:
+        from services.memory import recall_analyses
+        memories = recall_analyses(args.ticker)
+        if not memories:
+            console.print(f"No past analyses for [bold]{args.ticker.upper()}[/bold].")
+        else:
+            console.print(Panel(
+                "\n".join(memories),
+                title=f"Past Analyses: {args.ticker.upper()}",
+            ))
         return
 
     console.print(f"\nAnalyzing [bold]{args.ticker.upper()}[/bold]...\n")

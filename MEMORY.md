@@ -2,13 +2,9 @@
 
 ## Project Status
 
-Status: Initial Development
+Status: Implemented
 
-The repository structure has been established.
-
-Architecture documentation is complete.
-
-Implementation has not yet started.
+Core application is fully implemented and functional.
 
 ---
 
@@ -45,6 +41,18 @@ Model Host
 Validation
 
 - Pydantic v2
+
+Memory
+
+- mem0
+- ChromaDB
+- HuggingFace embeddings (all-MiniLM-L6-v2)
+
+Observability
+
+- Phoenix (Arize)
+- OpenTelemetry
+- OpenInference
 
 ---
 
@@ -109,12 +117,15 @@ Services
 - LLM
 - Logging
 - Telemetry
+- Memory
+- Prompt Loader
+- JSON Parsing
 
 Tools
 
-- Market Data
-- News
-- Data Processing
+- Market Data (Yahoo Finance)
+- News (DuckDuckGo)
+- Technical Indicators (ta library)
 
 ---
 
@@ -140,15 +151,15 @@ LLMs perform reasoning only.
 
 # Current Observability
 
-Logging
+Structured logging (structlog)
 
-OpenTelemetry
+OpenTelemetry traces exported to local file and Phoenix
 
-OpenInference
+OpenInference LangChain instrumentation
 
-Optional LangSmith
+Phoenix UI at http://localhost:6006
 
-LangSmith should trace only graph execution and LLM calls.
+Optional LangSmith (disabled by default)
 
 ---
 
@@ -180,11 +191,14 @@ Prompts are independent from Python code.
 
 The graph state contains:
 
-- User input
-- Market information
+- User input (ticker)
+- Market data
 - Company information
-- News summary
-- Agent outputs
+- Fundamentals
+- Technical indicators
+- News items
+- Past analyses (from mem0)
+- Agent outputs (technical, fundamental, news)
 - Final recommendation
 
 State is represented using Pydantic models.

@@ -67,9 +67,9 @@ The application accepts a stock ticker, gathers market data, performs multiple a
                          ▼
                  Shared Services
                          │
-         ┌───────────────┼───────────────┐
-         ▼               ▼               ▼
-      LLM            Tools          Logging
+      ┌──────────┬───────┼───────┬──────────┐
+      ▼          ▼       ▼       ▼          ▼
+    LLM       Tools   Logging  Telemetry  Memory
 ```
 
 ---
@@ -175,6 +175,22 @@ Services contain no business reasoning.
 
 ---
 
+## Memory
+
+Long-term memory using mem0.
+
+Responsibilities:
+
+- Store past recommendations per ticker
+- Recall prior analyses for context
+- Provide trend awareness to the decision agent
+
+Memory is persisted locally using ChromaDB with HuggingFace embeddings.
+
+The decision agent receives past analyses as additional context when available.
+
+---
+
 ## Schemas
 
 Shared contracts.
@@ -207,7 +223,7 @@ python app.py NVDA
 
 ## Step 2
 
-Runner creates the initial graph state.
+Runner recalls past analyses from memory and creates the initial graph state.
 
 ---
 
@@ -238,7 +254,7 @@ Each agent receives the same shared graph state.
 
 ## Step 5
 
-Decision Agent combines the outputs.
+Decision Agent combines the outputs along with past analyses from memory.
 
 Produces:
 
@@ -250,7 +266,7 @@ Produces:
 
 ## Step 6
 
-Runner returns the result.
+Runner stores the recommendation in memory and returns the result.
 
 CLI renders the output.
 
@@ -267,6 +283,7 @@ Example contents include:
 - calculated metrics
 - company fundamentals
 - news summary
+- past analyses (from memory)
 - technical analysis
 - fundamental analysis
 - news analysis
@@ -362,6 +379,20 @@ Examples:
 - model
 - latency
 - token usage
+
+---
+
+## Phoenix
+
+Primary observability UI.
+
+Displays:
+
+- LLM traces
+- prompts and responses
+- latency and token usage
+
+Runs locally at http://localhost:6006.
 
 ---
 

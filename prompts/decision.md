@@ -13,11 +13,13 @@ Synthesize the technical, fundamental, and news analyses into a single recommend
 - Technical Analysis: {technical_analysis}
 - Fundamental Analysis: {fundamental_analysis}
 - News Analysis: {news_analysis}
+- Past Analyses: {past_analyses}
 
 # Constraints
 
 - Weigh all three analyses. No single analysis should dominate unless its confidence is significantly higher.
 - If analyses conflict, favor the one with higher confidence.
+- Consider past analyses for trend context if available. Note any signal changes.
 - Be concise but provide clear justification.
 - Include a one-sentence summary for each analysis dimension.
 

@@ -143,4 +143,4 @@ logs/               Traces and application logs
 data/               Memory storage and cached data
 ```
 
-See [SETUP.md](SETUP.md) for detailed setup instructions, [ARCHITECTURE.md](ARCHITECTURE.md) for design details.
+See [ARCHITECTURE.md](ARCHITECTURE.md) for design details.
